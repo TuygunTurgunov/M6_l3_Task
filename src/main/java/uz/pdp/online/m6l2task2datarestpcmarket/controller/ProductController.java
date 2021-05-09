@@ -1,11 +1,12 @@
 package uz.pdp.online.m6l2task2datarestpcmarket.controller;
 
-import com.sun.deploy.net.HttpResponse;
+//import com.sun.deploy.net.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,7 @@ public class ProductController {
      * @return Product larni page i qaytadi.
      */
 
+    @PreAuthorize(value = "hasAuthority('READ_ALL_PRODUCT')")
     @GetMapping("/search")
     public HttpEntity<Page<Product>> getList(@RequestBody ProductSortDto productSortDto, @RequestParam Integer page){
 
@@ -52,6 +54,7 @@ public class ProductController {
      * @return Result
      */
 
+    @PreAuthorize(value = "hasAuthority('ADD_PRODUCT')")
     @PostMapping
     public ResponseEntity<?>add(@Valid @RequestBody ProductDto productDto){
         Result result = productService.add(productDto);
@@ -66,6 +69,7 @@ public class ProductController {
      * @return Product
      */
 
+    @PreAuthorize(value = "hasAuthority('READ_ALL_PRODUCT')")
     @GetMapping
     public ResponseEntity<?>AllProduct(@RequestParam Integer page){
         Page<Product> allProduct = productService.getAllProduct(page);
@@ -81,6 +85,7 @@ public class ProductController {
      * @return product
      */
 
+    @PreAuthorize(value = "hasAuthority('READ_ONE_PRODUCT')")
     @GetMapping("/{id}")
     public HttpEntity<?>grtOne(@PathVariable Integer id){
 
@@ -88,12 +93,14 @@ public class ProductController {
         return ResponseEntity.status(product!=null?HttpStatus.OK:HttpStatus.NOT_FOUND).body(product);
     }
 
+    @PreAuthorize(value = "hasAuthority('EDIT_PRODUCT')")
     @PutMapping("/{id}")
     public ResponseEntity<?>edit(@PathVariable Integer id,@Valid @RequestBody ProductDto productDto){
         Result result = productService.edit(id, productDto);
         return ResponseEntity.status(result.getSuccess()?202:409).body(result);
     }
 
+    @PreAuthorize(value = "hasAuthority('DELETE_PRODUCT')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?>delete(@PathVariable Integer id){
 
