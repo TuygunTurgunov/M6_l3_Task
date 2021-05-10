@@ -26,7 +26,7 @@ public class SecurityPcMarket extends WebSecurityConfigurerAdapter {
                 .and()
                 .withUser("moderator").password(passwordEncoder().encode("moderator")).roles("MODERATOR").authorities("READ_ALL_PRODUCT","ADD_PRODUCT","EDIT_PRODUCT","READ_ONE_PRODUCT")
                 .and()
-                .withUser("operator").password(passwordEncoder().encode("operator")).roles("OPERATOR").authorities("READ_ALL_PRODUCT","READ_ONE_PRODUCT");
+                .withUser("operator").password(passwordEncoder().encode("operator")).roles("OPERATOR").authorities("READ_ALL_PRODUCT","READ_ONE_PRODUCT","ADD_SHOPPING","DELETE_SHOPPING","EDIT_SHOPPING","READ_ALL_SHOPPING","READ_ONE_SHOPPING");
 
 
 

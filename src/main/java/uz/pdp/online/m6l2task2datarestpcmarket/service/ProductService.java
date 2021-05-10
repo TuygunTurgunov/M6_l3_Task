@@ -62,7 +62,7 @@ public class ProductService {
         if (!optionalCategory.isPresent())
             return new Result("category not found by id", false);
 
-        boolean exists = productRepository.existsByNameAndCategoryId(productDto.getName(), productDto.getCurrencyId());
+        boolean exists = productRepository.existsByNameAndCategoryId(productDto.getName(),productDto.getCategory());
         if (exists)
             return new Result("such kind of product already exists in this category", false);
 
